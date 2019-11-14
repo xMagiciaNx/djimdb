@@ -26,10 +26,12 @@ class MovieViewset(viewsets.ModelViewSet):
                 try:
                     rating = Rating.objects.get(user = user.id, movie = movie.id)
                     rating.stars = stars
-                    response = {'message': 'success'}
+                    rating.save()
+                    print(movie.title)
+                    response = {'message': 'success - updated'}
                 except:
                     Rating.objects.create(user = user, movie = movie, stars = stars)
-                    response = {'message':'success'}
+                    response = {'message':'success - created'}
                 return Response(response, status=status.HTTP_200_OK)
             else:
                 response = {'message': 'you must provide a star rating'}
@@ -45,6 +47,18 @@ class RatingViewset(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAdminUser,)
 
+    def create(self, request, *args, **kwargs):
+        response={'message':'You cannot edit rating directly'}
+        return Response(response,status=status.HTTP_403_FORBIDDEN)
+
+    def update(self, request, *args, **kwargs):
+        response={'message':'You cannot edit rating directly'}
+        return Response(response,status=status.HTTP_403_FORBIDDEN)
+
+    def destroy(self, request, *args, **kwargs):
+        response={'message':'You cannot edit rating directly'}
+        return Response(response,status=status.HTTP_403_FORBIDDEN)
+
 class UserViewset(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -56,4 +70,5 @@ class UserViewset(viewsets.ModelViewSet):
         Token.objects.create(user=user)
         response = {'message':f'User {user.username} created succesfull'}
         return Response(response,status=status.HTTP_200_OK)
+
 
