@@ -21,13 +21,18 @@ class MovieViewset(viewsets.ModelViewSet):
         if request.user.is_authenticated:
             if 'stars' in request.data:
                 stars = request.data['stars']
+                try:
+                    if (stars < 1) or (stars > 5) or (isinstance(stars,float)):
+                        raise Exception()
+                except:
+                    response = {'message': 'invalid integer'}
+                    return Response(response, status=status.HTTP_400_BAD_REQUEST)
                 movie = Movie.objects.get(id=pk)
                 user = request.user
                 try:
                     rating = Rating.objects.get(user = user.id, movie = movie.id)
                     rating.stars = stars
                     rating.save()
-                    print(movie.title)
                     response = {'message': 'success - updated'}
                 except:
                     Rating.objects.create(user = user, movie = movie, stars = stars)
@@ -70,5 +75,9 @@ class UserViewset(viewsets.ModelViewSet):
         Token.objects.create(user=user)
         response = {'message':f'User {user.username} created succesfull'}
         return Response(response,status=status.HTTP_200_OK)
+
+    def update(self, request, *args, **kwargs):
+        response = {'message':f'not allowed to modify user'}
+        return Response(response,status=status.HTTP_403_FORBIDDEN)
 
 
