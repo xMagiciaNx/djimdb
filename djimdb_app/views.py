@@ -1,15 +1,20 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from rest_framework import viewsets, status
+from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from djimdb_app.models import Movie, Rating
-from djimdb_app.serializers import MovieSerializer, RatingSerializer
+from djimdb_app.serializers import MovieSerializer, RatingSerializer, UserSerializer
+
 
 class MovieViewset(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
     authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     @action(detail=True, methods=['POST'])
     def ratemovie(self, request, pk):
@@ -38,3 +43,17 @@ class RatingViewset(viewsets.ModelViewSet):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
     authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAdminUser,)
+
+class UserViewset(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAdminUser, )
+
+    def create(self, request, *args, **kwargs):
+        user = User.objects.create_user(request.data['username'],'',request.data['password'])
+        Token.objects.create(user=user)
+        response = {'message':f'User {user.username} created succesfull'}
+        return Response(response,status=status.HTTP_200_OK)
+

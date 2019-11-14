@@ -6,8 +6,20 @@ class Movie(models.Model):
     def __str__(self):
         return self.title
 
+    def avgrating(self):
+        sum = 0
+        rating = Rating.objects.filter(movie = self)
+        rateCount = len(rating)
+        if rateCount > 0:
+            for rate in rating:
+                sum += rate.stars
+            return sum/rateCount
+        else:
+            return 0
+
     title = models.CharField(max_length=32)
     description = models.TextField(max_length=256)
+
 
 
 class Rating(models.Model):
