@@ -1,10 +1,9 @@
-from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.authtoken.views import obtain_auth_token
-from rest_framework import permissions
-from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions
+from rest_framework.authtoken.views import obtain_auth_token
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -19,9 +18,8 @@ schema_view = get_schema_view(
    permission_classes=(permissions.AllowAny,),
 )
 
-
 urlpatterns = [
-    path('', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('admin/', admin.site.urls),
     path('auth/', obtain_auth_token),
     path('api/',include('djimdb_app.urls')),

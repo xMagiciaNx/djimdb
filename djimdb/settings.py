@@ -1,7 +1,7 @@
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-
+import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -12,18 +12,21 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+isDevelopment = (sys.argv[1] == 'runserver')
 
-SECURE_SSL_REDIRECT = True
+DEBUG = isDevelopment
+
 ALLOWED_HOSTS = ['*']
 X_FRAME_OPTIONS = 'DENY'
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_CONTENT_TYPE_NOSNIFF =True
-SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = not isDevelopment
+SECURE_BROWSER_XSS_FILTER = not isDevelopment
+SECURE_SSL_REDIRECT = not isDevelopment
+SESSION_COOKIE_SECURE = not isDevelopment
+CSRF_COOKIE_SECURE = not isDevelopment
 SECURE_HSTS_SECONDS = 60
-SECURE_HSTS_PRELOAD = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = not isDevelopment
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not isDevelopment
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -36,8 +39,7 @@ INSTALLED_APPS = [
     'djimdb_app.apps.DjimdbAppConfig',
     'rest_framework',
     'rest_framework.authtoken',
-    'drf_yasg',
-
+    'drf_yasg'
 ]
 
 REST_FRAMEWORK = {
