@@ -1,3 +1,4 @@
+from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 from drf_yasg import openapi
@@ -19,7 +20,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    url('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('admin/', admin.site.urls),
     path('auth/', obtain_auth_token),
     path('api/',include('djimdb_app.urls')),
