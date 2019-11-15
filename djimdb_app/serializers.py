@@ -12,6 +12,11 @@ class RatingSerializer(serializers.ModelSerializer):
         model = Rating
         fields = ('id','movie','user','stars')
 
+class RatingUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ('id','movie','stars')
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
