@@ -16,7 +16,7 @@ isDevelopment = (sys.argv[1] == 'runserver')
 
 DEBUG = isDevelopment
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['heroku.com','localhost','127.0.0.1']
 X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = not isDevelopment
 SECURE_BROWSER_XSS_FILTER = not isDevelopment
@@ -64,7 +64,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = 'djimdb.urls'
 
@@ -132,3 +134,7 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static')
+        ]
