@@ -14,9 +14,9 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 isDevelopment = (sys.argv[1] == 'runserver')
 
-DEBUG = isDevelopment
+DEBUG = False#isDevelopment
 
-ALLOWED_HOSTS = ['heroku.com','localhost','127.0.0.1']
+ALLOWED_HOSTS = ['*']
 X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = not isDevelopment
 SECURE_BROWSER_XSS_FILTER = not isDevelopment
