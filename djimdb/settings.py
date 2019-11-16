@@ -26,7 +26,6 @@ CSRF_COOKIE_SECURE = not isDevelopment
 SECURE_HSTS_SECONDS = 60
 SECURE_HSTS_PRELOAD = not isDevelopment
 SECURE_HSTS_INCLUDE_SUBDOMAINS = not isDevelopment
-
 # Application definition
 
 INSTALLED_APPS = [
