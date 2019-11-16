@@ -14,7 +14,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 isDevelopment = (sys.argv[1] == 'runserver')
 
-DEBUG = False#isDevelopment
+DEBUG = isDevelopment
 
 ALLOWED_HOSTS = ['*']
 X_FRAME_OPTIONS = 'DENY'
