@@ -26,6 +26,7 @@ CSRF_COOKIE_SECURE = not isDevelopment
 SECURE_HSTS_SECONDS = 60
 SECURE_HSTS_PRELOAD = not isDevelopment
 SECURE_HSTS_INCLUDE_SUBDOMAINS = not isDevelopment
+CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,7 +39,8 @@ INSTALLED_APPS = [
     'djimdb_app.apps.DjimdbAppConfig',
     'rest_framework',
     'rest_framework.authtoken',
-    'drf_yasg'
+    'drf_yasg',
+    'corsheaders'
 ]
 
 REST_FRAMEWORK = {
@@ -64,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 
